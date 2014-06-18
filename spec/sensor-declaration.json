@@ -1,0 +1,332 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "basePath": "http://redlab.epfl.ch/smartdevice",
+    "resourcePath": "/sensor",
+    "protocol": "WebSocket",  /* extended Swagger with protocol */
+    "produces": [
+        "application/json"
+    ],
+    "apis": [
+        {
+            "path": "/sensor/",
+            "operations": [
+                {
+                    "method": "Send",
+                    "nickname": "getSensors",
+                    "summary": "List all sensors and their metadata",
+                    "type": "array",
+                    "items": {
+                        "$ref": "Sensor"
+                    },
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "description": "the payload for the getSensors service",
+                            "required": true,
+                            "paramType": "body",
+                            "type": "SensorMetadataRequest",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "No sensors found"
+                        }
+                    ]
+                },
+                {
+                    "method": "Send",
+                    "summary": "Get data from the sensor with the given sensor identifier",
+                    "type": "SensorResponse",
+                    "nickname": "getSensorData",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "description": "The payload for the getSensorData service",
+                            "required": true,
+                            "type": "SensorRequest",
+                            "paramType": "body",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Sensor identifier not found"
+                        },
+                        {
+                            "code": 404,
+                            "message": "No sensors found"
+                        },
+                        {
+                            "code": 401,
+                            "message": "The booking code is not valid"
+                        },
+                        {
+                            "code": 422,
+                            "message": "The request body is unprocessable"
+                        }
+                        //TODO error msg too many users
+                    ]
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Sensor": {
+            "id": "Sensor",
+            "required": [
+                "sensorId", "fullName"
+            ],
+            "properties": {
+                "sensorId": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "webSocketType": {
+                    "type": "string",
+                    "description": "the type of WebSocket. WebSockets can either be binary or textual.",
+                    "enum": [
+                        "text",
+                        "binary"
+                    ],
+                    "defaultValue": "text"
+                },
+                "singleWebSocketRecommended": {
+                    "type": "boolean",
+                    "description": "If this field is set to true it means that the smart device expects that a client opens a dedicated websocket for to read from this value",
+                    "defaultValue": false
+                },
+                "produces": {                   /* should this be on sensor or value level? */
+                    "type": "string",
+                    "description": "The mime-type of the data that is produced by this sensor. A list of mime types can be found at http://en.wikipedia.org/wiki/Internet_media_type",
+                    "defaultValue": "application/json"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Value"
+                    }
+                },
+                "configuration": {
+                    "type": "array",
+                    "description": "The configuration consists of an array of JSON objects that consist of parameter and type",
+                    "items": {
+                        "$ref": "ConfigurationMetadataItem"    /* extended Swagger with object type */
+                    }
+                },
+                "accessMode": {
+                    "type": "AccessMode"
+                }
+            }
+        },
+        "Value": {                      /* DO WE NEED ENCODING? */
+            "id": "Value",              /* DO WE NEED TO PUT TIMESTAMP OF THE LAST UPDATE IN THE METADATA OR SHOULD WE PUT IT ONLY IN THE RESPONSE? ADDING IT TO GETSENSORS, WOULD MAKE THE METADATA DYNAMIC... */
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "rangeMinimum": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "rangeMaximum": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "rangeStep": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "lastMeasured": {
+                    "type": "date-time"
+                },
+                "updateFrequency": {
+                    "type": "number",
+                    "description": "The frequency in Hertz of which the sensor value updates",
+                    "format": "int"
+                }
+            }
+        },
+        "ConfigurationMetadataItem": {
+            "id": "ConfigurationMetadataItem",
+            "required": [
+                "parameter", "type"
+            ],
+            "properties": {
+                "parameter": {
+                    "type": "string",
+                    "description": "The name of the configuration parameter"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "This field can provide some more information on how this parameter should be used."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The data type of that this configuration parameters expects, e.g. number or string",
+                    "enum": [
+                        "integer",
+                        "long",
+                        "float",
+                        "double",
+                        "string",
+                        "byte",
+                        "boolean",
+                        "date",
+                        "dateTime",
+                        "object",           /* extended Swagger with JSON object type */
+                        "array",
+                        "any",              /* extended Swagger with any type -- this represents any possible type */
+                        "binary"            /* extended Swagger with binary type -- support for large binary config files */
+                    ]
+                },
+                "items": {
+                    "type": "string",
+                    "description": "This field should only be used when the type is 'array'. It describes which types are present within the array",
+                    "enum": [
+                        "integer",
+                        "long",
+                        "float",
+                        "double",
+                        "string",
+                        "byte",
+                        "boolean",
+                        "date",
+                        "dateTime",
+                        "object",           /* extended Swagger with JSON object type */
+                        "any",              /* extended Swagger with any type -- this represents any possible type */
+                        "binary"            /* extended Swagger with binary type -- support for large binary config files */
+                    ]
+                }
+            }
+        },
+        "AccessMode": {
+            "id": "AccessMode",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "push",
+                        "pull",
+                        "stream"
+                    ]
+                },
+                "nominalUpdateInterval": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "userModifiableFrequency": {
+                    "type": "boolean",
+                    "defaultValue": false
+                }
+            }
+        },
+        "SensorMetadataRequest": {
+            "id": "SensorMetadataRequest",
+            "required": [
+                "authToken", "method"
+            ],
+            "properties": {
+                "authToken": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                }
+            }
+        },
+        "SensorRequest": {
+            "id": "SensorRequest",
+            "required": [
+                "authToken", "method", "sensorId"
+            ],
+            "properties": {
+                "authToken": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "sensorId": {
+                    "type": "string"
+                },
+                "updateFrequency": {
+                    "type": "number",
+                    "description": "The frequency in Hertz of which the sensor value updates",
+                    "format": "int"
+                },
+                "configuration": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "ConfigurationItem"
+                    }
+                }
+            }
+        },
+        "ConfigurationItem": {
+            "id": "ConfigurationItem",
+            "required": [
+                "parameter", "value"
+            ],
+            "properties": {
+                "parameter": {
+                    "type": "string",
+                    "description": "The name of the configuration parameter"
+                },
+                "value": {
+                    "type": "any",          /* extended Swagger with any type -- this represents any possible type */
+                    "description": "The value to set the configuration parameter to. The type should equal the type given in the metadata for this sensor."
+                }
+            }
+        },
+        "SensorResponse": {
+            "id": "SensorResponse",
+            "required": [
+                "method", "sensorId"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "sensorId": {
+                    "type": "string"
+                },
+                "values": {
+                    "type": "array",
+                    "description": "An ordered array with all the value names of this sensor. The same order will be applied to the data array and lastMeasured array.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "data": {
+                    "type": "array",
+                    "description": "An ordered array with all the data values of this sensor. Each data element in the array should be ordered in the same position of its corresponding value elements in the values array.",
+                    "items": {
+                        "type": "any"           /* extended Swagger with any type -- this represents any possible type */
+                    }
+                },
+                "lastMeasured": {
+                    "type": "array",
+                    "description": "An ordered array with all the data values of this sensor. Each data element in the array should be ordered in the same position of its corresponding value elements in the values array.",
+                    "items": {
+                        "type": "date-time"
+                    }
+                }
+            }
+        }
+    }
+}

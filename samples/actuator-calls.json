@@ -1,0 +1,91 @@
+/* WebSocket API: /actuator
+ *  returns:
+ * */
+[
+/**
+ * getActuators
+ * @param @class ActuatorMetadataRequest
+ * @return array @class Actuator
+ */
+//CALL:
+{
+    "authToken": "dskds909ds8a76as675sa54;",
+    "method": "getActuators"
+},
+
+
+//RETURN:
+[
+    {
+        "actuatorId": "motor",
+        "fullName": "Wheel motor",
+        "description": "operate the motor of the wheel",
+        "webSocketType": "text",
+        "produces": "application/json",
+        "consumes": "application/json",
+        "values": [
+            {
+                "name": "left",
+                "unit": "degree",
+                "rangeMinimum": 0.00,
+                "rangeMaximum": 180.00,
+                "rangeStep": 0.10,
+                "updateFrequency": 10,
+                "lastMeasured": "2011-07-14 19:43:37 +0100"
+            },
+            {
+                "name": "right",
+                "unit": "degree",
+                "rangeMinimum": 0.00,
+                "rangeMaximum": 180.00,
+                "rangeStep": 0.10,
+                "updateFrequency": 10,
+                "lastMeasured": "2011-07-14 19:43:37 +0100"
+            }
+        ],
+        "configuration":[
+            {
+                "parameter": "precision",
+                "description": "The precision is expressed as a power of 10, e.g. to allow a precision of 0.01 the value will be -2 (from 10^-2).",
+                "type": "int"
+            }
+        ],
+        "accessMode": {
+            "type": "push",
+            "nominalUpdateInterval": 100,
+            "userModifiableFrequency": 50
+        }
+    }
+],
+
+/**
+ *  sendActuatorData
+ *  @param @class ActuatorRequest
+ *  @return @class ActuatorResponse
+ **/
+//CALL:
+{
+    "authToken": "dskds909ds8a76as675sa54",
+    "method": "sendActuatorData",
+    "actuatorId": "motor",
+    "values": ["left", "right"],
+    "data": [17.90, 54.60]
+},
+
+//RETURN:
+{
+    "method": "sendActuatorData",
+    "lastMeasured": "2011-07-14 19:43:37 +0100",
+    "payload": {
+        "motor": {             /* could be useful for returning a result, but payload is optional */
+            "left": 123.21,
+            "right": 32.76
+        }
+    }
+}
+
+    //TODO when in observer mode should return an error and info on how long it will take to get the device
+    //queue size
+    //queue position
+    //ETA
+]

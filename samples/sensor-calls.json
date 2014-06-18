@@ -1,0 +1,171 @@
+/* WebSocket API: /sensor
+ *  returns:
+ * */
+[
+/**
+ * getSensors
+ * @param @class SensorMetadataRequest
+ * @return array @class Sensor
+ */
+//CALL:
+{
+    "authToken": "dskds909ds8a76as675sa54;",
+    "method": "getSensors"
+},
+
+//RETURN:
+[
+    {
+        "sensorId": "3D-pos",
+        "fullName": "3D position",
+        "description": "the 3D position of the robot arm",
+        "webSocketType": "text",
+        "produces": "application/json",
+        "values": [
+            {
+                "name": "X",
+                "unit": "cm",
+                "lastMeasured": "2011-07-14 19:43:37 +0100",
+                "rangeMinimum": 0.00,
+                "rangeMaximum": 100.00,
+                "rangeStep": 0.10,
+                "updateFrequency": 10
+            },
+            {
+                "name": "Y",
+                "unit": "cm",
+                "lastMeasured": "2011-07-14 19:43:37 +0100",
+                "rangeMinimum": 0.00,
+                "rangeMaximum": 100.00,
+                "rangeStep": 0.10,
+                "updateFrequency": 10
+            },
+            {
+                "name": "Z",
+                "unit": "cm",
+                "lastMeasured": "2011-07-14 19:43:37 +0100",
+                "rangeMinimum": 0.00,
+                "rangeMaximum": 100.00,
+                "rangeStep": 0.10,
+                "updateFrequency": 10
+            }
+        ],
+        "configuration":[
+            {
+                "parameter": "precision",
+                "description": "The precision is expressed as a power of 10, e.g. to allow a precision of 0.01 the value will be -2 (from 10^-2).",
+                "type": "int"
+            }
+        ],
+        "accessMode": {
+            "type": "stream",
+            "nominalUpdateInterval": 100,
+            "userModifiableFrequency": 50
+        }
+    },
+    {
+        "sensorId": "video",
+        "fullName": "video stream",
+        "description": "front camera video stream",
+        "webSocketType": "binary",
+        "singleWebSocketRecommended": true,  //TODO rename to recommended!
+        "produces": "image/jpeg",
+        "values": [
+            {
+                "name": "front",
+                "lastMeasured": "2011-07-14 19:43:37 +0100",
+                "updateFrequency": 10
+            }
+        ],
+        "configuration":[
+            {
+                "parameter": "width",
+                "type": "int"
+            },
+            {
+                "parameter": "height",
+                "type": "int"
+            },
+            {
+                "parameter": "compression",
+                "type": "float"
+            },
+            {
+                "parameter": "colorFilter",
+                "description": "The colour value in an array of 3 decimal RGB values",
+                "type": "array",
+                "items": "int"
+            }
+        ],
+        "accessMode": {
+            "type": "push",
+            "nominalUpdateInterval": 10,
+            "userModifiableFrequency": true
+        }
+    }
+],
+
+/**
+ *  getSensorData
+ *  @param @class SensorRequest
+ *  @return @class SensorResponse
+ **/
+//CALL:
+{
+    "authToken": "dskds909ds8a76as675sa54",
+    "method": "getSensorData",
+    "sensorId": "3D-pos",
+    "updateFrequency": 20,
+    "configuration": [
+        {
+            "parameter": "precision",
+            "value": 3
+        }
+    ]
+},
+
+//other example for video:
+{
+    "authToken": "dskds909ds8a76as675sa54",
+    "method": "getSensorData",
+    "sensorId": "video",
+    "updateFrequency": 25,
+    "configuration": [
+        {
+            "parameter": "width",
+            "value": 640
+        },
+        {
+            "parameter": "height",
+            "value": 480
+        },
+        {
+            "parameter": "compression",
+            "value": 92.3
+        },
+        {
+            "parameter": "colorFilter",
+            "value": [60, 27, 229]
+        }
+    ]
+},
+
+//RETURN:
+{
+    "method": "getSensorData",
+    "sensorId": "3D-pos",
+    "values": ["X", "Y", "Z"],
+    "data": [12,23,43],
+    "lastMeasured": ["2011-07-14 19:43:37 +0100","2011-07-14 19:43: 37 +0100","2011-07-14 19:43:37 +0100"]
+}
+
+//TODO add stop!
+{
+    "method": "getSensorData",
+    "sensorId": "3D-pos",
+    "stop": true
+}
+
+
+
+]
