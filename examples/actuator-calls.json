@@ -82,6 +82,29 @@
             "right": 32.76
         }
     }
+},
+
+//RETURN when in ObserverMode:
+{
+    "method": "sendActuatorData",
+    "observerMode": {
+        "queueSize": 7,
+        "queuePosition": 4,
+        "estimatedTimeUntilControl": 736
+    }
+},
+
+{
+    "method": "sendActuatorData",
+    "controllerMode": {
+        "lastMeasured": "2011-07-14 19:43:37 +0100",
+        "payload": {
+            "motor": {             /* could be useful for returning a result, but payload is optional */
+                "left": 123.21,
+                "right": 32.76
+            }
+        }
+    }
 }
 
     //TODO when in observer mode should return an error and info on how long it will take to get the device

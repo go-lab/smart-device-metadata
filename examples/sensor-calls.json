@@ -157,13 +157,13 @@
     "values": ["X", "Y", "Z"],
     "data": [12,23,43],
     "lastMeasured": ["2011-07-14 19:43:37 +0100","2011-07-14 19:43: 37 +0100","2011-07-14 19:43:37 +0100"]
-}
+},
 
-//TODO add stop!
+//CALL stop sending a sensor value
 {
     "method": "getSensorData",
     "sensorId": "3D-pos",
-    "stop": true
+    "updateFrequency": 0
 }
 
 
