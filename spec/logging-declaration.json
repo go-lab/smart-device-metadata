@@ -65,7 +65,7 @@
                     "type": "array",
                     "items": {
                         "type": "object",
-                        "description": "An Activity Stream object. This JSON object should follow the ActivityStreams 2.0 JSON specification described at http://tools.ietf.org/html/draft-snell-activitystreams-09"
+                        "description": "An Activity Stream object. This JSON object should follow the ActivityStreams 1.0 JSON specification described at http://activitystrea.ms/specs/json/1.0/"
                     }
                 }
             }
