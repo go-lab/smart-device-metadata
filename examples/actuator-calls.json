@@ -4,64 +4,67 @@
 [
 /**
  * getActuators
- * @param @class ActuatorMetadataRequest
+ * @param @class PublicRequest
  * @return array @class Actuator
  */
 //CALL:
 {
-    "authToken": "dskds909ds8a76as675sa54;",
-    "method": "getActuators"
+    "method": "getActuatorMetadata"
 },
 
 
 //RETURN:
-[
-    {
-        "actuatorId": "motor",
-        "fullName": "Wheel motor",
-        "description": "operate the motor of the wheel",
-        "webSocketType": "text",
-        "produces": "application/json",
-        "consumes": "application/json",
-        "values": [
-            {
-                "name": "left",
-                "unit": "degree",
-                "rangeMinimum": 0.00,
-                "rangeMaximum": 180.00,
-                "rangeStep": 0.10,
-                "updateFrequency": 10,
-                "lastMeasured": "2011-07-14 19:43:37 +0100"
-            },
-            {
-                "name": "right",
-                "unit": "degree",
-                "rangeMinimum": 0.00,
-                "rangeMaximum": 180.00,
-                "rangeStep": 0.10,
-                "updateFrequency": 10,
-                "lastMeasured": "2011-07-14 19:43:37 +0100"
+{
+    "method": "getActuatorMetadata",
+    "actuators":
+    [
+        {
+            "actuatorId": "motor",
+            "fullName": "Wheel motor",
+            "description": "operate the motor of the wheel",
+            "webSocketType": "text",
+            "produces": "application/json",
+            "consumes": "application/json",
+            "values": [
+                {
+                    "name": "left",
+                    "unit": "degree",
+                    "rangeMinimum": 0.00,
+                    "rangeMaximum": 180.00,
+                    "rangeStep": 0.10,
+                    "updateFrequency": 10,
+                    "lastMeasured": "2011-07-14 19:43:37 +0100"
+                },
+                {
+                    "name": "right",
+                    "unit": "degree",
+                    "rangeMinimum": 0.00,
+                    "rangeMaximum": 180.00,
+                    "rangeStep": 0.10,
+                    "updateFrequency": 10,
+                    "lastMeasured": "2011-07-14 19:43:37 +0100"
+                }
+            ],
+            "configuration":[
+                {
+                    "parameter": "precision",
+                    "description": "The precision is expressed as a power of 10, e.g. to allow a precision of 0.01 the value will be -2 (from 10^-2).",
+                    "type": "int"
+                }
+            ],
+            "accessMode": {
+                "type": "push",
+                "nominalUpdateInterval": 100,
+                "userModifiableFrequency": 50
             }
-        ],
-        "configuration":[
-            {
-                "parameter": "precision",
-                "description": "The precision is expressed as a power of 10, e.g. to allow a precision of 0.01 the value will be -2 (from 10^-2).",
-                "type": "int"
-            }
-        ],
-        "accessMode": {
-            "type": "push",
-            "nominalUpdateInterval": 100,
-            "userModifiableFrequency": 50
         }
-    }
-],
+    ]
+},
 
 /**
  *  sendActuatorData
- *  @param @class ActuatorRequest
- *  @return @class ActuatorResponse
+ *  @param @class ActuatorDataRequest
+ *  @return @class ActuatorDataResponse
  **/
 //CALL:
 {
@@ -107,8 +110,4 @@
     }
 }
 
-    //TODO when in observer mode should return an error and info on how long it will take to get the device
-    //queue size
-    //queue position
-    //ETA
 ]

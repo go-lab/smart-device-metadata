@@ -15,6 +15,10 @@
             "description": "Operations about actuators"
         },
         {
+            "path": "/logging",
+            "description": "Operations to retrieve user interaction and lab logging info"
+        },
+        {
             "path": "/",
             "description": "A general endpoint that allows to access any operation on any service"
         }

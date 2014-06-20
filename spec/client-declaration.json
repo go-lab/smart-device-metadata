@@ -13,19 +13,37 @@
             "operations": [
                 {
                     "method": "Send",
+                    "nickname": "getClients",
                     "summary": "Return a list of all available clients",
                     "notes": "Returns a JSON array with all the available clients",
-                    "type": "array",
-                    "items": {
-                        "$ref": "Client"
-                    },
-                    "nickname": "getAllClients",
-                    "parameters": [],
+                    "type": "ClientResponse",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "description": "the payload for the getClients service.",
+                            "required": true,
+                            "paramType": "body",
+                            "type": "PublicRequest",
+                            "allowMultiple": false
+                        }
+                    ],
                     "authorizations": { },
                     "responseMessages": [
                         {
+                            "code": 402,
+                            "message": "Too many users"
+                        },
+                        {
                             "code": 404,
                             "message": "Clients not found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
+                        },
+                        {
+                            "code": 422,
+                            "message": "The request body is unprocessable"
                         }
                     ]
                 }
@@ -50,6 +68,28 @@
                 "url": {
                     "type": "string",
                     "description": "The URI where the client application resides"
+                }
+            }
+        },
+        "ClientResponse": {
+            "id": "ClientResponse",
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "clients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Client"
+                    }
+                }
+            }
+        },
+        "PublicRequest": {
+            "id": "PublicRequest",
+            "properties": {
+                "method": {
+                    "type": "string"
                 }
             }
         }

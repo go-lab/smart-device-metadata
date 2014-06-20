@@ -13,19 +13,16 @@
             "operations": [
                 {
                     "method": "Send",
-                    "nickname": "getActuators",
+                    "nickname": "getActuatorMetadata",
                     "summary": "List all actuators and their metadata",
-                    "type": "array",
-                    "items": {
-                        "$ref": "Actuator"
-                    },
+                    "type": "ActuatorMetadataResponse",
                     "parameters": [
                         {
                             "name": "body",
-                            "description": "the payload for the getActuators service",
+                            "description": "the payload for the getActuatorMetadata service",
                             "required": true,
                             "paramType": "body",
-                            "type": "ActuatorMetadataRequest",
+                            "type": "PublicRequest",
                             "allowMultiple": false
                         }
                     ],
@@ -33,33 +30,50 @@
                         {
                             "code": 404,
                             "message": "No actuators found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
+                        },
+                        {
+                            "code": 422,
+                            "message": "The request body is unprocessable"
                         }
-                    ]
+                    ],
+                    "authorizations": {}
                 },
                 {
                     "method": "Send",
                     "summary": "Send new data to the actuator with the given actuator identifier",
                     "notes": "The parameters go into a JSON object send over the WebSocket",
-                    "type": "ActuatorResponse",
+                    "type": "ActuatorDataResponse",
                     "nickname": "sendActuatorData",
                     "parameters": [
                         {
                             "name": "body",
                             "description": "The payload for the sendActuatorData service",
                             "required": true,
-                            "type": "ActuatorRequest",
+                            "type": "ActuatorDataRequest",
                             "paramType": "body",
                             "allowMultiple": false
                         }
                     ],
                     "responseMessages": [
                         {
-                            "code": 400,
-                            "message": "Actuator identifier not found"
+                            "code": 401,
+                            "message": "Unauthorised access. The authentication token is not valid"
                         },
                         {
-                            "code": 401,
-                            "message": "The booking code is not valid"
+                            "code": 402,
+                            "message": "Too many users"
+                        },
+                        {
+                            "code": 404,
+                            "message": "No actuator not found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
                         },
                         {
                             "code": 422,
@@ -71,8 +85,8 @@
         }
     ],
     "models": {
-        "Actuator": {                                   /* DO WE NEED ENCODING? */
-            "id": "Actuator",                           /* DO WE NEED TO PUT TIMESTAMP OF THE LAST UPDATE IN THE METADATA OR SHOULD WE PUT IT ONLY IN THE RESPONSE? ADDING IT TO GETACTUATORS, WOULD MAKE THE METADATA DYNAMIC... */
+        "Actuator": {
+            "id": "Actuator",
             "required": [
                 "actuatorId", "fullName"
             ],
@@ -128,22 +142,27 @@
                 }
             }
         },
-        "ActuatorMetadataRequest": {
-            "id": "ActuatorMetadataRequest",
+        "ActuatorMetadataResponse": {
+            "id": "ActuatorMetadataResponse",
             "required": [
-                "authToken", "method"
+                "method", "actuators"
             ],
             "properties": {
-                "authToken": {
-                    "type": "string"
-                },
                 "method": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                },
+                "actuators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Actuator"
+                    },
+                    "description": "The list of actuator metadata elements"
                 }
             }
         },
-        "ActuatorRequest": {
-            "id": "ActuatorRequest",
+        "ActuatorDataRequest": {
+            "id": "ActuatorDataRequest",
             "required": [
                 "authToken", "method", "actuatorId"
             ],
@@ -152,7 +171,8 @@
                     "type": "string"
                 },
                 "method": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
                 },
                 "actuatorId": {
                     "type": "string"
@@ -176,24 +196,67 @@
                     "items": {
                         "$ref": "ConfigurationItem"
                     }
+                },
+                "accessMode": {
+                    "type": "string",
+                    "description": "The access mode allows the client to by pass any concurrency mechanism of the controller mode. By default, it is set to 'normal' which means that the waiting queue should be respected. If it is set to 'urgent', the client should be put as the next user in line. If it is set 'interrupt' the client that is currently using the smart device should be aborted and this client should get controller mode access.",
+                    "enum": [
+                        "normal",
+                        "urgent",
+                        "interrupt"
+                    ],
+                    "defaultValue": "normal"
                 }
             }
         },
-        "ActuatorResponse": {
-            "id": "ActuatorResponse",
+        "ActuatorDataResponse": {
+            "id": "ActuatorDataResponse",
             "required": [
-                "success"
+                "method"
             ],
             "properties": {
-                "success": {
-                    "type": "boolean"
+                "method": {
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
                 },
-                "lastMeasured": {            /* added lastUpdated here */
+                "lastMeasured": {
                     "type": "date-time"
                 },
+                "controllerMode": {
+                    "type": "ControllerMode",
+                    "description": "There can be only one mode, either controllerMode is declared or observerMode"
+                },
+                "observerMode": {
+                    "type": "ObserverMode",
+                    "description": "There can be only one mode, either controllerMode is declared or observerMode"
+                }
+            }
+        },
+        "ActuatorControllerMode": {
+            "id": "ControllerMode",
+            "required": [],
+            "properties": {
                 "payload": {
                     "type": "object",
                     "description": "The payload can be useful for describing a result that is returned. Since results can differ from acknowledgements to result data, the field is optional and can contain any JSON object."
+                }
+            }
+        },
+        "ObserverMode": {
+            "id": "ObserverMode",
+            "required": [],
+            "properties": {
+                "queueSize": {
+                    "type": "integer",
+                    "description": "Provides the length of the user waiting queue that want to get control of the lab"
+                },
+                "queuePosition": {
+                    "type": "integer",
+                    "description": "Provides the position of the client who made this call in the user waiting queue. This value should be positive and smaller or equal to queueSize."
+                },
+                "estimatedTimeUntilControl": {
+                    "type": "integer",
+                    "description": "The estimated waiting time from now on until the client will get controllerMode access. The time is expressed in seconds."
                 }
             }
         }

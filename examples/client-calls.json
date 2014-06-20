@@ -1,18 +1,32 @@
-/* REST API: GET /client
- *  returns:
- * */
-
+/* WebSocket API: Send /client
+ * @param @class PublicRequest
+ * @returns @class ClientResponse
+ **/
 [
-    {
-        "type": "OpenSocial gadget",
-        "url": "http://superlab.epfl.ch/client/dataviewer.xml"
-    },
-    {
-        "type": "OpenSocial gadget",
-        "url": "http://superlab.epfl.ch/client/video.xml"
-    },
-    {
-        "type": "OpenSocial gadget",
-        "url": "http://superlab.epfl.ch/client/experiment-operator.xml"
-    }
+//CALL:
+{
+    "method": "getClients"
+},
+
+
+//RETURN:
+{
+    "method": "getClients",
+    "clients":
+        [
+            {
+                "type": "OpenSocial gadget",
+                "url": "http://superlab.epfl.ch/client/dataviewer.xml"
+            },
+            {
+                "type": "OpenSocial gadget",
+                "url": "http://superlab.epfl.ch/client/video.xml"
+            },
+            {
+                "type": "OpenSocial gadget",
+                "url": "http://superlab.epfl.ch/client/experiment-operator.xml"
+            }
+        ]
+}
+
 ]

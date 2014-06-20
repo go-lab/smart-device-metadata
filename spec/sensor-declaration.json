@@ -13,34 +13,44 @@
             "operations": [
                 {
                     "method": "Send",
-                    "nickname": "getSensors",
+                    "nickname": "getSensorMetadata",
                     "summary": "List all sensors and their metadata",
-                    "type": "array",
-                    "items": {
-                        "$ref": "Sensor"
-                    },
+                    "type": "SensorMetadataResponse",
                     "parameters": [
                         {
                             "name": "body",
-                            "description": "the payload for the getSensors service",
+                            "description": "the payload for the getSensorMetadata service",
                             "required": true,
                             "paramType": "body",
-                            "type": "SensorMetadataRequest",
+                            "type": "PublicRequest",
                             "allowMultiple": false
                         }
                     ],
                     "responseMessages": [
                         {
+                            "code": 402,
+                            "message": "Too many users"
+                        },
+                        {
                             "code": 404,
                             "message": "No sensors found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
+                        },
+                        {
+                            "code": 422,
+                            "message": "The request body is unprocessable"
                         }
-                    ]
+                    ],
+                    "authorisations": {}
                 },
                 {
                     "method": "Send",
+                    "nickname": "getSensorData",
                     "summary": "Get data from the sensor with the given sensor identifier",
                     "type": "SensorResponse",
-                    "nickname": "getSensorData",
                     "parameters": [
                         {
                             "name": "body",
@@ -53,22 +63,25 @@
                     ],
                     "responseMessages": [
                         {
-                            "code": 400,
-                            "message": "Sensor identifier not found"
+                            "code": 401,
+                            "message": "Unauthorised access. The authentication token is not valid"
+                        },
+                        {
+                            "code": 402,
+                            "message": "Too many users"
                         },
                         {
                             "code": 404,
                             "message": "No sensors found"
                         },
                         {
-                            "code": 401,
-                            "message": "The booking code is not valid"
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
                         },
                         {
                             "code": 422,
                             "message": "The request body is unprocessable"
                         }
-                        //TODO error msg too many users
                     ]
                 }
             ]
@@ -127,8 +140,8 @@
                 }
             }
         },
-        "Value": {                      /* DO WE NEED ENCODING? */
-            "id": "Value",              /* DO WE NEED TO PUT TIMESTAMP OF THE LAST UPDATE IN THE METADATA OR SHOULD WE PUT IT ONLY IN THE RESPONSE? ADDING IT TO GETSENSORS, WOULD MAKE THE METADATA DYNAMIC... */
+        "Value": {
+            "id": "Value",
             "required": [
                 "name"
             ],
@@ -235,8 +248,8 @@
                 }
             }
         },
-        "SensorMetadataRequest": {
-            "id": "SensorMetadataRequest",
+        "AuthorisedRequest": {
+            "id": "AuthorisedRequest",
             "required": [
                 "authToken", "method"
             ],
@@ -245,7 +258,26 @@
                     "type": "string"
                 },
                 "method": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                }
+            }
+        },
+        "SensorMetadataResponse": {
+            "id": "SensorMetadataResponse",
+            "required": [
+                "method", "sensors"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                },
+                "sensors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Sensor"
+                    }
                 }
             }
         },
@@ -259,7 +291,8 @@
                     "type": "string"
                 },
                 "method": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
                 },
                 "sensorId": {
                     "type": "string"
@@ -274,6 +307,16 @@
                     "items": {
                         "$ref": "ConfigurationItem"
                     }
+                },
+                "accessMode": {
+                    "type": "string",
+                    "description": "The access mode allows the client to by pass any concurrency mechanism of the controller mode. By default, it is set to 'normal' which means that the waiting queue should be respected. If it is set to 'urgent', the client should be put as the next user in line. If it is set 'interrupt' the client that is currently using the smart device should be aborted and this client should get controller mode access.",
+                    "enum": [
+                        "normal",
+                        "urgent",
+                        "interrupt"
+                    ],
+                    "defaultValue": "normal"
                 }
             }
         },
@@ -300,11 +343,26 @@
             ],
             "properties": {
                 "method": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
                 },
                 "sensorId": {
                     "type": "string"
                 },
+                "controllerMode": {
+                    "type": "SensorControllerMode",
+                    "description": "There can be only one mode, either controllerMode is declared or observerMode"
+                },
+                "observerMode": {
+                    "type": "ObserverMode",
+                    "description": "There can be only one mode, either controllerMode is declared or observerMode"
+                }
+            }
+        },
+        "SensorControllerMode": {
+            "id": "SensorControllerMode",
+            "required": [],
+            "properties": {
                 "values": {
                     "type": "array",
                     "description": "An ordered array with all the value names of this sensor. The same order will be applied to the data array and lastMeasured array.",

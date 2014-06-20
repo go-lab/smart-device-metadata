@@ -1,0 +1,51 @@
+/* WebSocket API: /logging
+ *  returns:
+ * */
+[
+/**
+ * getLoggingInfo
+ * @param @class LoggingRequest
+ * @return @class LoggingResponse
+ */
+//CALL:
+    {
+        "authToken": "dskds909ds8a76as675sa54;",
+        "method": "getLoggingInfo"
+    },
+
+//RETURN:
+    {
+        "method": "getLoggingInfo",
+        "logs": [
+            {
+                "verb": "access",
+                "published": "2011-02-10T15:04:55Z",
+                "language": "en",
+                "actor": {
+                    "objectType": "person",
+                    "id": "urn:example:person:martin",
+                    "displayName": "Martin Smith",
+                    "url": "http://example.org/martin",
+                    "image": {
+                        "url": "http://example.org/martin/image.jpg",
+                        "mediaType": "image/jpeg",
+                        "width": 250,
+                        "height": 250
+                    }
+                },
+                "object" : {
+                    "objectType": "sensor",
+                    "id": "urn:redlab:epfl:ch/3D-pos"
+                    "url": "http://redlab.epfl.ch/smartdevice/sensors/3D-pos",
+                    "displayName": "3D position"
+                },
+                "target" : {
+                    "objectType": "lab",
+                    "id": "urn:redlab:epfl:ch/smartdevice",
+                    "displayName": "RED Lab",
+                    "url": "http://redlab.epfl.ch/smartdevice/"
+                }
+            }
+        ]
+    }
+]
