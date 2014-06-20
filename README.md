@@ -10,14 +10,14 @@ to define the smart device APIs.
 
 The specification is split in separate files:
 
-- **spec/resource-listing.json:** This is the main specification that provides an overview of all APIs.
-- **spec/client-declaration.json:** This file provides the detailed specification and data models
+- `spec/resource-listing.json`: This is the main specification that provides an overview of all APIs.
+- `spec/client-declaration.json`: This file provides the detailed specification and data models
 for the API to retrieve the client applications of the smart device.
-- **spec/sensor-declaration.json:** This file provides the detailed specification and data models
+- `spec/sensor-declaration.json`: This file provides the detailed specification and data models
 for the API to retrieve sensor metadata and data.
-- **spec/actuator-declaration.json:** This file provides the detailed specification and data models
+- `spec/actuator-declaration.json`: This file provides the detailed specification and data models
 for the API to retrieve actuator metadata and data.
-- **spec/logging-declaration.json:** This file provides the detailed specification and data models
+- `spec/logging-declaration.json`: This file provides the detailed specification and data models
 for the API to retrieve user activity and lab logging information.
 
 Furthermore, some examples of how the specification is used can be found in the `examples` folder.
