@@ -47,7 +47,6 @@
             },
             {
                 "role": "admin",
-                "selectionMechanism": "race",
                 "selectionMechanism": "interruptor"
             }
         ]
