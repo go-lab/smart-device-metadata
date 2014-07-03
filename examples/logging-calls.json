@@ -4,7 +4,7 @@
 [
 /**
  * getLoggingInfo
- * @param @class LoggingRequest
+ * @param @class AuthorisedRequest
  * @return @class LoggingResponse
  */
 //CALL:
