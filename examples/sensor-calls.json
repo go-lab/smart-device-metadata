@@ -69,7 +69,7 @@
             "fullName": "video stream",
             "description": "front camera video stream",
             "webSocketType": "binary",
-            "singleWebSocketRecommended": true,  //TODO rename to recommended!
+            "singleWebSocketRecommended": true,
             "produces": "image/jpeg",
             "values": [
                 {
