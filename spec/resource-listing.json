@@ -32,22 +32,18 @@
         }
     },
     "concurrency": {        /* Swagger extension:  */
-        "observerMode": {
-            "isAvailable": true,
-            "availableApis": ["getSensors"]     /* a list of paths or operation nicknames */
-        },
-        "controllerMode": {
-            "isAvailable": true,
-            "mechanism": [          /* A list of mechanisms needs to be provided (somewhere)... */
-                "synchronous",
-                "asynchronous",
-                "batch",
-                "concurrent",
-                "queue",
-                "interruptor",
-                "race"          //TODO ask pablo if there are more!
-            ]
-        }
+        "interactionMode": "synchronous",  /* can also be 'asynchronous' */
+        "concurrencyScheme": "roles",   /* can also be 'concurrent' then all users have access at the same time */
+        "roleSelectionMechanism": ["race", "interruptor"],  /* can also be 'queue', 'external role', 'dynamic role'  */
+        "roles": [
+            {
+                "role": "observer",
+                "availableApis": ["getSensors"]     /* a list of paths or operation nicknames */
+            },
+            {
+                "role": "controller"
+            }
+        ]
     },
     "info": {
         "title": "RED Lab smart device",
