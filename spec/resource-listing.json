@@ -38,16 +38,16 @@
         "roles": [
             {
                 "role": "observer",
-                "selectionMechanism": "race",
+                "selectionMechanism": ["race"],
                 "availableApis": ["getSensors"]     /* a list of paths or operation nicknames */
             },
             {
                 "role": "controller",
-                "selectionMechanism": "race"
+                "selectionMechanism": ["race"]
             },
             {
                 "role": "admin",
-                "selectionMechanism": "interruptor"
+                "selectionMechanism": ["interruptor"]
             }
         ]
     },
