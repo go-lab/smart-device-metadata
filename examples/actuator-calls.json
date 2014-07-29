@@ -4,7 +4,7 @@
 [
 /**
  * getActuators
- * @param @class PublicRequest
+ * @param @class SimpleRequest
  * @return array @class Actuator
  */
 //CALL:
@@ -28,21 +28,21 @@
             "values": [
                 {
                     "name": "left",
-                    "unit": "degree",
+                    "unit": "radian",
                     "rangeMinimum": 0.00,
-                    "rangeMaximum": 180.00,
+                    "rangeMaximum": 3.14,
                     "rangeStep": 0.10,
                     "updateFrequency": 10,
-                    "lastMeasured": "2011-07-14 19:43:37 +0100"
+                    "lastMeasured": "2014-06-23T19:25:43.511Z"
                 },
                 {
                     "name": "right",
-                    "unit": "degree",
+                    "unit": "radian",
                     "rangeMinimum": 0.00,
-                    "rangeMaximum": 180.00,
+                    "rangeMaximum": 3.14,
                     "rangeStep": 0.10,
                     "updateFrequency": 10,
-                    "lastMeasured": "2011-07-14 19:43:37 +0100"
+                    "lastMeasured": "2014-06-23T19:25:43.511Z"
                 }
             ],
             "configuration":[
@@ -55,7 +55,7 @@
             "accessMode": {
                 "type": "push",
                 "nominalUpdateInterval": 100,
-                "userModifiableFrequency": 50
+                "userModifiableFrequency": true
             }
         }
     ]
@@ -70,43 +70,33 @@
 {
     "authToken": "dskds909ds8a76as675sa54",
     "method": "sendActuatorData",
+    "accessRole": "controller",
     "actuatorId": "motor",
-    "values": ["left", "right"],
-    "data": [17.90, 54.60]
+    "valueNames": ["left"],
+    "data": [1.90]
 },
 
 //RETURN:
 {
     "method": "sendActuatorData",
-    "lastMeasured": "2011-07-14 19:43:37 +0100",
+    "lastMeasured": "2014-06-23T20:25:43.741Z",
+    "accessRole": "controller",
     "payload": {
-        "motor": {             /* could be useful for returning a result, but payload is optional */
-            "left": 123.21,
-            "right": 32.76
-        }
+        /* could be useful for returning a result, but payload is optional */
+        "actuatorId": "motor",
+        "valueNames": ["left"],
+        "data": [1.90]
     }
 },
 
 //RETURN when in ObserverMode:
 {
     "method": "sendActuatorData",
+    "accessRole": "observer",
     "observerMode": {
         "queueSize": 7,
         "queuePosition": 4,
         "estimatedTimeUntilControl": 736
-    }
-},
-
-{
-    "method": "sendActuatorData",
-    "controllerMode": {
-        "lastMeasured": "2011-07-14 19:43:37 +0100",
-        "payload": {
-            "motor": {             /* could be useful for returning a result, but payload is optional */
-                "left": 123.21,
-                "right": 32.76
-            }
-        }
     }
 }
 

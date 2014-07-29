@@ -4,7 +4,7 @@
 [
 /**
  * getSensorMetadata
- * @param @class PublicRequest
+ * @param @class SimpleRequest
  * @return @class SensorMetadataResponse
  */
 //CALL:
@@ -26,7 +26,7 @@
                 {
                     "name": "X",
                     "unit": "cm",
-                    "lastMeasured": "2011-07-14 19:43:37 +0100",
+                    "lastMeasured": "2014-06-23T18:25:43.511Z",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 100.00,
                     "rangeStep": 0.10,
@@ -35,7 +35,7 @@
                 {
                     "name": "Y",
                     "unit": "cm",
-                    "lastMeasured": "2011-07-14 19:43:37 +0100",
+                    "lastMeasured": "2014-06-23T18:25:43.511Z",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 100.00,
                     "rangeStep": 0.10,
@@ -44,7 +44,7 @@
                 {
                     "name": "Z",
                     "unit": "cm",
-                    "lastMeasured": "2011-07-14 19:43:37 +0100",
+                    "lastMeasured": "2014-06-23T18:25:43.511Z",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 100.00,
                     "rangeStep": 0.10,
@@ -59,9 +59,9 @@
                 }
             ],
             "accessMode": {
-                "type": "stream",
+                "type": "push",
                 "nominalUpdateInterval": 100,
-                "userModifiableFrequency": 50
+                "userModifiableFrequency": true
             }
         },
         {
@@ -74,7 +74,7 @@
             "values": [
                 {
                     "name": "front",
-                    "lastMeasured": "2011-07-14 19:43:37 +0100",
+                    "lastMeasured": "2014-06-23T18:28:43.617Z",
                     "updateFrequency": 10
                 }
             ],
@@ -89,17 +89,18 @@
                 },
                 {
                     "parameter": "compression",
+                    "description": "The JPEG compression quality, ranging from 0 (lowest quality) to 100 (highest quality).",
                     "type": "float"
                 },
                 {
-                    "parameter": "colorFilter",
+                    "parameter": "colourFilter",
                     "description": "The colour value in an array of 3 decimal RGB values",
                     "type": "array",
                     "items": "int"
                 }
             ],
             "accessMode": {
-                "type": "push",
+                "type": "stream",
                 "nominalUpdateInterval": 10,
                 "userModifiableFrequency": true
             }
@@ -109,8 +110,8 @@
 
 /**
  *  getSensorData
- *  @param @class SensorRequest
- *  @return @class SensorResponse
+ *  @param @class SensorDataRequest
+ *  @return @class SensorDataResponse
  **/
 //CALL:
 {
@@ -123,7 +124,8 @@
             "parameter": "precision",
             "value": 3
         }
-    ]
+    ],
+    "accessRole": "controller"
 },
 
 //example to interrupt the current client
@@ -132,11 +134,11 @@
     "method": "getSensorData",
     "sensorId": "3D-pos",
     "updateFrequency": 20,
-    "accessMode": "interrupt",
+    "accessRole": "interrupt",
     "configuration": [
         {
             "parameter": "precision",
-            "value": 3
+            "value": -3
         }
     ]
 },
@@ -147,6 +149,7 @@
     "method": "getSensorData",
     "sensorId": "video",
     "updateFrequency": 25,
+    "accessRole": "controller",
     "configuration": [
         {
             "parameter": "width",
@@ -171,10 +174,11 @@
 {
     "method": "getSensorData",
     "sensorId": "3D-pos",
-    "controllerMode": {
-        "values": ["X", "Y", "Z"],
-        "data": [12,23,43],
-        "lastMeasured": ["2011-07-14 19:43:37 +0100","2011-07-14 19:43: 37 +0100","2011-07-14 19:43:37 +0100"]
+    "accessRole": "controller",
+    "responseData": {
+        "valueNames": ["X", "Y", "Z"],
+        "data": [12.396, 23.681, 43.303],
+        "lastMeasured": ["2014-06-23T18:28:43.511Z", "2014-06-23T18:28:43.511Z", "2014-06-23T18:28:43.511Z"]
     }
 },
 
