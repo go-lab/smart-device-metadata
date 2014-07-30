@@ -219,6 +219,10 @@
         },
         {
             "path": "/logging",
+            "protocol": "WebSocket",
+            "produces": [
+                "application/json"
+            ],
             "operations": [
                 {
                     "method": "Send",
@@ -360,7 +364,7 @@
                     "type": "array",
                     "description": "The configuration consists of an array of JSON objects that consist of parameter and type",
                     "items": {
-                        "$ref": "ConfigurationMetadataItem"    /* extended Swagger with object type */
+                        "$ref": "ConfigurationMetadataItem"
                     }
                 },
                 "accessMode": {
@@ -665,7 +669,7 @@
                     "type": "array",
                     "description": "The configuration consists of an array of JSON objects that consist of parameter and type",
                     "items": {
-                        "$ref": "ConfigurationMetadataItem"    /* extended Swagger with object type */
+                        "$ref": "ConfigurationMetadataItem"
                     }
                 },
                 "accessMode": {
