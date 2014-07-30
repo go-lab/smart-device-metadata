@@ -1,0 +1,272 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "info": {
+        "title": "Servo Motor smart device",
+        "description": "This is an example implementation of the Go-Lab smart device in NodeJS on BeagleBone Black",
+        "termsOfServiceUrl": "http://helloreverb.com/terms/",
+        "contact": "wissam.halimi@epfl.ch",
+        "license": "MIT",
+        "licenseUrl": "http://opensource.org/licenses/MIT"
+    },
+    "authorizations": {},
+    "concurrency": {},
+    "apis": [
+        {
+            "path": "/",
+            "description": "A general endpoint that grants access to any operation on any service",
+            "protocol": "WebSocket",
+            "produces": [
+                "application/json"
+            ],
+            "operations": [
+                {
+                    "method": "Send",
+                    "summary": "Returns a list of all available clients",
+                    "notes": "Returns a JSON array with all the available clients",
+                    "type": "ClientResponse",
+                    "nickname": "getClients",
+                    "parameters": [
+                        {
+                            "paramType": "form",
+                            "name": "clients_list",
+                            "description": "The payload for the getClients service.",
+                            "required": false,
+                            "type": "SimpleRequest"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 402,
+                            "message": "Too many users"
+                        },
+                        {
+                            "code": 404,
+                            "message": "Clients not found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
+                        }
+                    ]
+                },
+                {
+                    "method": "Send",
+                    "nickname": "getActuatorMetadata",
+                    "summary": "Lists all actuators and their metadata",
+                    "type": "ActuatorMetadataResponse",
+                    "parameters": [
+                        {
+                            "paramType": "form",
+                            "name": "list_actuator",
+                            "description": "the payload for the getActuatorMetadata service",
+                            "required": true,
+                            "type": "SimpleRequest"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "No actuators found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
+                        }
+                    ]
+                },
+                {
+                    "method": "Send",
+                    "summary": "Send new data to the actuator with the given actuator identifier",
+                    "notes": "The parameters go into a JSON object sent over the WebSocket",
+                    "type": "ActuatorDataResponse",
+                    "nickname": "sendActuatorData",
+                    "parameters": [
+                        {
+                            "paramType": "form",
+                            "name": "send_data",
+                            "description": "Operation allowing to control the motor's arm",
+                            "required": true,
+                            "type": "SimpleRequest"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 402,
+                            "message": "Too many users"
+                        },
+                        {
+                            "code": 404,
+                            "message": "No actuator found"
+                        },
+                        {
+                            "code": 405,
+                            "message": "Method not allowed. The requested method is not allowed by this server."
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Client": {
+            "id": "Client",
+            "description" : "Client model representing an available application to serve a user",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "The type of client application",
+                    "enum": [
+                        "OpenSocial Gadget",
+                        "W3C widget",
+                        "Web page",
+                        "Java WebStart",
+                        "Desktop application"
+                    ]
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The URI where the client application resides"
+                }
+            }
+        },
+        "ClientResponse": {
+            "id": "ClientResponse",
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "clients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Client"
+                    }
+                }
+            }
+        },
+
+        "SimpleRequest": {
+            "id": "SimpleRequest",
+            "required": [
+                "method"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                }
+            }
+        },
+        "Actuator": {
+            "id": "Actuator",
+            "required": [
+                "actuatorId", "fullName"
+            ],
+            "properties": {
+                "actuatorId": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "webSocketType": {
+                    "type": "string",
+                    "description": "the type of WebSocket. WebSockets can either be binary or textual.",
+                    "enum": [
+                        "text"
+                    ]
+                },
+                "singleWebSocketRecommended": {
+                    "type": "boolean",
+                    "description": "If this field is set to true it means that the smart device expects that a client opens a dedicated websocket for to read from this value",
+                    "defaultValue": false
+                },
+                "consumes": {                   
+                    "type": "string",
+                    "description": "The mime-type of the data that is consumed by this actuator.",
+                    "defaultType": "application/json"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Value"
+                    }
+                },
+            }
+        },
+        "ActuatorMetadataResponse": {
+            "id": "ActuatorMetadataResponse",
+            "required": [
+                "method", "actuators"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                },
+                "actuators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Actuator"
+                    },
+                    "description": "The list of actuator metadata elements"
+                }
+            }
+        },
+        "ActuatorDataRequest": {
+            "id": "ActuatorDataRequest",
+            "required": [
+                "method", "actuatorId"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                },
+                "actuatorId": {
+                    "type": "string"
+                },
+                "values": {
+                    "type": "array",
+                    "description": "An ordered array with all the value names of this actuator. The same order will be applied to the data array and lastMeasured array.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "data": {
+                    "type": "array",
+                    "description": "An ordered array with all the data values of this sensor. Each data element in the array should be ordered in the same position of its corresponding value elements in the values array.",
+                    "items": {
+                        "type": "any"           /* extended Swagger with any type -- this represents any possible type */
+                    }
+                }
+            }
+        },
+        "ActuatorDataResponse": {
+            "id": "ActuatorDataResponse",
+            "required": [
+                "method"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "The method should be equal to the nickname of one of the provided services."
+                },
+                "lastMeasured": {
+                    "type": "date-time"
+                },
+                "controllerMode": {
+                    "type": "ControllerMode",
+                    "description": "There can be only one mode, either controllerMode is declared or observerMode"
+                },
+                "observerMode": {
+                    "type": "ObserverMode",
+                    "description": "There can be only one mode, either controllerMode is declared or observerMode"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+/* WebSocket API: Send /client
+ * @param @class PublicRequest
+ * @returns @class ClientResponse
+ **/
+[
+//CALL:
+    {
+        "method": "getClients"
+    },
+
+
+//RETURN:
+    {
+        "method": "getClients",
+        "clients":
+            [
+                {
+                    "type": "Web page",
+                    "url": ""
+                }
+            ]
+    }
+
+]

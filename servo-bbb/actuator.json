@@ -1,0 +1,54 @@
+[
+/**
+ * getActuators
+ * @param @class SimpleRequest
+ * @return array @class Actuator
+ */
+//CALL:
+    {
+        "method": "getActuatorMetadata"
+    },
+
+
+//RETURN:
+    {
+        "method": "getActuatorMetadata",
+        "actuators":
+            [
+                {
+                    "actuatorId": "motor",
+                    "fullName": "servo motor",
+                    "description": "operates the motor's arm to turn",
+                    "webSocketType": "text",
+                    "produces": "application/json",
+                    "consumes": "application/json",
+                    //values to be verified
+                    "values": [
+                        {
+                            "name": "left",
+                            "unit": "degree",
+                            "rangeMinimum": 0.00,
+                            "rangeMaximum": 180.00,
+                            "rangeStep": 0.10,
+                            "updateFrequency": 10,
+                            "lastMeasured": "2012-04-23T18:25:43.511Z"
+                        },
+                        {
+                            "name": "right",
+                            "unit": "degree",
+                            "rangeMinimum": 0.00,
+                            "rangeMaximum": 180.00,
+                            "rangeStep": 0.10,
+                            "updateFrequency": 10,
+                            "lastMeasured": "2012-04-23T18:25:43.511Z"
+                        }
+                    ],
+                    "accessMode": {
+                        "type": "push",
+                        "nominalUpdateInterval": 100,
+                        "userModifiableFrequency": 50
+                    }
+                }
+            ]
+    }
+]
