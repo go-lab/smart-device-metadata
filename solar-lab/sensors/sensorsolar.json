@@ -1,0 +1,158 @@
+﻿[  
+   {  
+      "method":"getSensorMetadata"
+   },
+   {  
+      "method":"getSensorMetadata",
+      "sensors":[  
+         {  
+            "sensorId":"ESDval",
+            "fullName":"Energy meter",
+            "description":"Energy storage",
+            "webSocketType":"text",
+            "singleWebSocketRecommended":false,
+            "produces":"application/json",
+            "values":[  
+               {  
+                  "name":"input voltage",
+                  "unit":"V",
+                  "rangeMinimum":0,
+                  "rangeMaximum":9.9
+               },
+               {  
+                  "name":"input current",
+                  "unit":"A",
+                  "rangeMinimum":0,
+                  "rangeMaximum":0.2
+               },
+               {  
+                  "name":"input wattage",
+                  "unit":"W",
+                  "rangeMinimum":0,
+                  "rangeMaximum":1.98
+               },
+               {  
+                  "name":"output voltage",
+                  "unit":"V",
+                  "rangeMinimum":0,
+                  "rangeMaximum":9.9
+               },
+               {  
+                  "name":"output current",
+                  "unit":"A",
+                  "rangeMinimum":0,
+                  "rangeMaximum":0.45
+               },
+               {  
+                  "name":"output wattage",
+                  "unit":"W",
+                  "rangeMinimum":0,
+                  "rangeMaximum":4.455
+               },
+               {  
+                  "name":"worktodo",
+                  "unit":"J",
+                  "rangeMinimum":0,
+                  "rangeMaximum":100
+               }
+            ],
+            "accessMode":{  
+               "type":"pull",
+               "nominalUpdateInterval":50,
+               "userModifiableFrequency":false
+            }
+         },
+         {  
+            "sensorId":"video",
+            "fullName":"video feed",
+            "description":"front camera video stream",
+            "webSocketType":"binary",
+            "singleWebSocketRecommended":true,
+            "produces":"image/jpeg",
+            "values":[  
+               {  
+                  "name":"video",
+                  "updateFrequency":10
+               }
+            ],
+            "accessMode":{  
+               "type":"push",
+               "nominalUpdateInterval":100,
+               "userModifiableFrequency":false
+            }
+         },
+         {  
+            "sensorId":"Light",
+            "fullName":"Light sensor",
+            "description":"gives the light intensity",
+            "webSocketType":"text",
+            "singleWebSocketRecommended":false,
+            "produces":"application/json",
+            "values":[  
+               {  
+                  "name":"intensity",
+                  "unit":"lm",
+                  "rangeMinimum":0,
+                  "rangeMaximum":700
+               }
+            ],
+            "accessMode":{  
+               "type":"pull",
+               "nominalUpdateInterval":100,
+               "userModifiableFrequency":false
+            }
+         },
+         {  
+            "sensorId":"NXTbattery",
+            "fullName":"NXT battery",
+            "description":"gives the power remaining in the NXT battery",
+            "webSocketType":"text",
+            "singleWebSocketRecommended":false,
+            "produces":"application/json",
+            "values":[  
+               {  
+                  "name":"Voltage",
+                  "unit":"V",
+                  "rangeMinimum":0,
+                  "rangeMaximum":100
+               }
+            ],
+            "accessMode":{  
+               "type":"pull",
+               "nominalUpdateInterval":100,
+               "userModifiableFrequency":false
+            }
+         }
+      ]
+   },
+   {  
+      "method":"getSensorData",
+      "sensorId":"ESDval",
+      "accessRole":"controller"
+   },
+   {  
+      "method":"getSensorData",
+      "sensorId":"ESDval",
+      "accessRole":"controller",
+      "responseData":{  
+         "valueNames":[  
+            "input voltage",
+            "input current",
+            "input wattage",
+            "output voltage",
+            "output current",
+            "output wattage",
+            "worktodo"
+         ],
+         "data":[  
+            2,
+            0.5,
+            1,
+            0,
+            0,
+            0,
+            5
+         ]
+      }
+   }
+]
