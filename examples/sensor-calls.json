@@ -26,6 +26,7 @@
                 {
                     "name": "X",
                     "unit": "cm",
+                    "type": "float",
                     "lastMeasured": "2014-06-23T18:25:43.511Z",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 100.00,
@@ -35,6 +36,7 @@
                 {
                     "name": "Y",
                     "unit": "cm",
+                    "type": "float",
                     "lastMeasured": "2014-06-23T18:25:43.511Z",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 100.00,
@@ -44,6 +46,7 @@
                 {
                     "name": "Z",
                     "unit": "cm",
+                    "type": "float",
                     "lastMeasured": "2014-06-23T18:25:43.511Z",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 100.00,
@@ -74,6 +77,7 @@
             "values": [
                 {
                     "name": "front",
+                    "type": "string",
                     "lastMeasured": "2014-06-23T18:28:43.617Z",
                     "updateFrequency": 10
                 }

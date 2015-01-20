@@ -28,6 +28,7 @@
                     {
                         "name": "angularRef",
                         "unit": "degree",
+                        "type": "float",
                         "rangeMinimum": 30,
                         "rangeMaximum": 330
                     }
