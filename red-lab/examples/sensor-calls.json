@@ -27,6 +27,7 @@
                     {
                         "name": "angularPosition",
                         "unit": "degree",
+                        "type": "string",
                         "lastMeasured": "2014-06-23T18:25:43.511Z",
                         "rangeMinimum": 30,
                         "rangeMaximum": 330,
@@ -49,6 +50,7 @@
                 "values": [
                     {
                         "name": "video",
+                        "type": "string",
                         "lastMeasured": "2014-06-23T18:28:43.617Z",
                         "updateFrequency": 10
                     }

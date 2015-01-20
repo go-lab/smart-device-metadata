@@ -384,6 +384,25 @@
                 "unit": {
                     "type": "string"
                 },
+                "type": {
+                    "type": "string",
+                    "description": "The data type of that this configuration parameters expects, e.g. number or string",
+                    "enum": [
+                        "integer",
+                        "long",
+                        "float",
+                        "double",
+                        "string",
+                        "byte",
+                        "boolean",
+                        "date",
+                        "dateTime",
+                        "object",           /* extended Swagger with JSON object type */
+                        "array",
+                        "any",              /* extended Swagger with any type -- this represents any possible type */
+                        "binary"            /* extended Swagger with binary type -- support for large binary config files */
+                    ]
+                },
                 "rangeMinimum": {
                     "type": "number",
                     "format": "double"

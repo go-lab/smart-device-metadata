@@ -29,6 +29,7 @@
                 {
                     "name": "left",
                     "unit": "radian",
+                    "type": "float",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 3.14,
                     "rangeStep": 0.10,
@@ -38,6 +39,7 @@
                 {
                     "name": "right",
                     "unit": "radian",
+                    "type": "float",
                     "rangeMinimum": 0.00,
                     "rangeMaximum": 3.14,
                     "rangeStep": 0.10,
