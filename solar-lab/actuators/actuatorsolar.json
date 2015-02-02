@@ -1,23 +1,82 @@
-﻿[
-   {
-        "method": "getActuatorMetadata"
-   },
-   {  
+﻿{  
       "method":"getActuatorMetadata",
-      "actuators":[  
+      "actuators":[
          {  
-            "actuatorId":"ESD?",
-            "fullName":"OnOff Energy meter",
-            "description":"Motor to set Energy meter On/Off",
+            "actuatorId":"SolarLab",
+            "fullName":"Solar Energy Generation",
+            "description":"Being SolarLab ON you can move the panel, assing light value and record the energy generated.",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"State",
-                  "rangestep":1,
-                  "rangeMinimum":0,
-                  "rangeMaximum":1
+                  "name":"Solar",
+                  "type":"boolean",
+                  "unit":"binary boolean",
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },  
+         {  
+            "actuatorId":"ESD",
+            "fullName":"OnOff Energy meter",
+            "description":"Energy meter records the amount of energy in and out.",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"state",
+                  "type":"boolean",
+                  "unit":"binary boolean",
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },
+         {  
+            "actuatorId":"Panelrot",
+            "fullName":"Solar Panel rotation angle",
+            "description":"Changes rotation of Solar Panel",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"rotation",
+                  "unit":"°",
+                  "type":"int",
+                  "rangeStep":1,
+                  "rangeMinimum":-150,
+                  "rangeMaximum":150,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },
+         {  
+            "actuatorId":"Paneltilt",
+            "fullName":"Solar Panel tilt angle",
+            "description":"Changes inclination of Solar Panel",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"tilt",
+                  "unit":"°",
+                  "type":"int",
+                  "rangeStep":1,
+                  "rangeMinimum":-90,
+                  "rangeMaximum":0,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
             "accessMode":{  
@@ -33,11 +92,13 @@
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"DimSun",
+                  "name":"dimSun",
                   "unit":"lm",
-                  "rangeStep":20,
+                  "type":"int",
+                  "rangeStep":1,
                   "rangeMinimum":0,
-                  "rangeMaximum":700
+                  "rangeMaximum":700,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
             "accessMode":{  
@@ -45,19 +106,21 @@
             }
          },
          {  
-            "actuatorId":"Paneltilt",
-            "fullName":"Solar Panel tilt",
-            "description":"Changes inclination of Solar Panel",
+            "actuatorId":"TOgetJ",
+            "fullName":"Joules to get",
+            "description":"Number of Joules to gain in the experiment",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"Tilt",
-                  "unit":"°",
-                  "rangeStep":1,
-                  "rangeMinimum":-90,
-                  "rangeMaximum":0
+                  "name":"jadded",
+                  "unit":"J",
+                  "type":"int",
+                  "rangestep":1,
+                  "rangeMinimum":1,
+                  "rangeMaximum":100,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
             "accessMode":{  
@@ -65,19 +128,104 @@
             }
          },
          {  
-            "actuatorId":"Panelrot",
-            "fullName":"Solar Panel rotation",
-            "description":"Changes rotation of Solar Panel",
+            "actuatorId":"Elapsed",
+            "fullName":"Elapsed Time",
+            "description":"Duration (in minutes) of the generation proccess",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"Rotation",
-                  "unit":"°",
-                  "rangeStep":1,
-                  "rangeMinimum":-150,
-                  "rangeMaximum":150
+                  "name":"duration",
+                  "unit":"s",
+                  "type":"dateTime",
+                  "rangestep":1,
+                  "rangeMinimum":1,
+                  "rangeMaximum":30,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },
+         {  
+            "actuatorId":"CraneLab",
+            "fullName":" Energy Usage",
+            "description":"Being CraneLab ON you can move a load and record the energy consumed.",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"Crane",
+                  "type":"boolean",
+                  "unit":"binary boolean",
+                  "unit":"binary boolean",
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },
+         {  
+            "actuatorId":"TOuseJ",
+            "fullName":"Joules to waste",
+            "description":"Number of Joules to use in the experiment",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"jused",
+                  "unit":"J",
+                  "type":"int",
+                  "rangestep":1,
+                  "rangeMinimum":1,
+                  "rangeMaximum":98,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },
+         {  
+            "actuatorId":"CraneDistance",
+            "fullName":"Distance to move the load",
+            "description":"Number of centimeters to move the load in the experiment",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"Distance",
+                  "unit":"cm",
+                  "type":"int",
+                  "rangestep":1,
+                  "rangeMinimum":1,
+                  "rangeMaximum":50,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
+            }
+         },
+         {  
+            "actuatorId":"MotionSense",
+            "fullName":"Direction to move the load in",
+            "description":"Load to be moved up (=TRUE=1) or down (=FALSE=1)",
+            "webSocketType":"text",
+            "produces":"application/json",
+            "consumes":"application/json",
+            "values":[  
+               {  
+                  "name":"Direction",
+                  "type":"boolean",
+                  "unit":"binary boolean",
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
             "accessMode":{  
@@ -85,29 +233,4 @@
             }
          }
       ]
-   },
-   {  
-      "method":"sendActuatorData",
-      "accessRole":"controller",
-      "actuatorId":"Paneltilt",
-      "valueNames":[  
-         "tilt"
-      ],
-      "data":[  
-         -30
-      ]
-   },
-   {  
-      "method":"sendActuatorData",
-      "accessRole":"controller",
-      "payload":{  
-         "actuatorId":"Panel tilt",
-         "valueNames":[  
-            "tilt"
-         ],
-         "data":[  
-            -28
-         ]
-      }
-   }
-]
+}
