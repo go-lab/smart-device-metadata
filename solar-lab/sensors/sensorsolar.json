@@ -1,14 +1,10 @@
-﻿[  
-   {  
-      "method":"getSensorMetadata"
-   },
-   {  
+﻿{  
       "method":"getSensorMetadata",
-      "sensors":[  
+      "sensors":[
          {  
             "sensorId":"ESDval",
             "fullName":"Energy meter",
-            "description":"Energy storage",
+            "description":"Energy meter data provided",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
@@ -16,53 +12,67 @@
                {  
                   "name":"input voltage",
                   "unit":"V",
-                  "rangeMinimum":0,
-                  "rangeMaximum":9.9
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":9.9,
+                  "updateFrequency":2
                },
                {  
                   "name":"input current",
                   "unit":"A",
-                  "rangeMinimum":0,
-                  "rangeMaximum":0.2
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":0.2,
+                  "updateFrequency":2
                },
                {  
                   "name":"input wattage",
                   "unit":"W",
-                  "rangeMinimum":0,
-                  "rangeMaximum":1.98
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":1.98,
+                  "updateFrequency":2
                },
                {  
                   "name":"output voltage",
                   "unit":"V",
-                  "rangeMinimum":0,
-                  "rangeMaximum":9.9
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":9.9,
+                  "updateFrequency":2
                },
                {  
                   "name":"output current",
                   "unit":"A",
-                  "rangeMinimum":0,
-                  "rangeMaximum":0.45
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":0.45,
+                  "updateFrequency":2
                },
                {  
                   "name":"output wattage",
                   "unit":"W",
-                  "rangeMinimum":0,
-                  "rangeMaximum":4.455
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":4.455,
+                  "updateFrequency":2
                },
                {  
                   "name":"worktodo",
                   "unit":"J",
-                  "rangeMinimum":0,
-                  "rangeMaximum":100
+                  "type":"float",
+                  "rangeMinimum":0.0,
+                  "rangeMaximum":100.0,
+                  "updateFrequency":2
                }
             ],
             "accessMode":{  
-               "type":"pull",
-               "nominalUpdateInterval":50,
+               "type":"push",
+               "nominalUpdateInterval":1000,
                "userModifiableFrequency":false
             }
          },
-         {  
+          {  
             "sensorId":"video",
             "fullName":"video feed",
             "description":"front camera video stream",
@@ -71,7 +81,7 @@
             "produces":"image/jpeg",
             "values":[  
                {  
-                  "name":"video",
+                  "name":"image",
                   "updateFrequency":10
                }
             ],
@@ -80,11 +90,11 @@
                "nominalUpdateInterval":100,
                "userModifiableFrequency":false
             }
-         },
+         }, 
          {  
             "sensorId":"Light",
             "fullName":"Light sensor",
-            "description":"gives the light intensity",
+            "description":"Gives the light intensity",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
@@ -92,67 +102,60 @@
                {  
                   "name":"intensity",
                   "unit":"lm",
+                  "type":"int",
+                  "rangeStep":1,
                   "rangeMinimum":0,
-                  "rangeMaximum":700
+                  "rangeMaximum":700,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
             "accessMode":{  
-               "type":"pull",
-               "nominalUpdateInterval":100,
-               "userModifiableFrequency":false
+               "type":"pull"
             }
          },
          {  
-            "sensorId":"NXTbattery",
-            "fullName":"NXT battery",
-            "description":"gives the power remaining in the NXT battery",
+            "sensorId":"PanelTilt",
+            "fullName":"Panel tilt angle sensor",
+            "description":"Gives the tilt angle of Solar Panel",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
             "values":[  
                {  
-                  "name":"Voltage",
-                  "unit":"V",
-                  "rangeMinimum":0,
-                  "rangeMaximum":100
+                  "name":"tilt",
+                  "unit":"°",
+                  "type":"int",
+                  "rangeStep":1,
+                  "rangeMinimum":-90,
+                  "rangeMaximum":0,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
             "accessMode":{  
-               "type":"pull",
-               "nominalUpdateInterval":100,
-               "userModifiableFrequency":false
+               "type":"pull"
+            }
+         },
+         {  
+            "sensorId":"PanelRot",
+            "fullName":"Panel rotation angle sensor",
+            "description":"Gives the rotation angle of Solar Panel",
+            "webSocketType":"text",
+            "singleWebSocketRecommended":false,
+            "produces":"application/json",
+            "values":[  
+               {  
+                  "name":"rotation",
+                  "unit":"°",
+                  "type":"int",
+                  "rangeStep":1,
+                  "rangeMinimum":-150,
+                  "rangeMaximum":150,
+                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
+               }
+            ],
+            "accessMode":{  
+               "type":"pull"
             }
          }
       ]
-   },
-   {  
-      "method":"getSensorData",
-      "sensorId":"ESDval",
-      "accessRole":"controller"
-   },
-   {  
-      "method":"getSensorData",
-      "sensorId":"ESDval",
-      "accessRole":"controller",
-      "responseData":{  
-         "valueNames":[  
-            "input voltage",
-            "input current",
-            "input wattage",
-            "output voltage",
-            "output current",
-            "output wattage",
-            "worktodo"
-         ],
-         "data":[  
-            2,
-            0.5,
-            1,
-            0,
-            0,
-            0,
-            5
-         ]
-      }
-   }
-]
+}
