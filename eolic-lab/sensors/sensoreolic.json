@@ -4,7 +4,7 @@
          {  
             "sensorId":"Doing",
             "fullName":"Experiment in course",
-            "description":"Gives the operation being used: Charging (=solar) or Discharging (=crane)",
+            "description":"Gives the operation being used: Charging (=wind) or Discharging (=wheel)",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
@@ -116,20 +116,20 @@
             }
          }, 
          {  
-            "sensorId":"Light",
-            "fullName":"Light sensor",
-            "description":"Gives the light intensity",
+            "sensorId":"WindPower",
+            "fullName":"Tacho fan motor sensor",
+            "description":"Gives the fan speed in rpm",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
             "values":[  
                {  
-                  "name":"intensity",
-                  "unit":"lm",
+                  "name":"revolutions",
+                  "unit":"m/s",
                   "type":"int",
                   "rangeStep":1,
                   "rangeMinimum":0,
-                  "rangeMaximum":700,
+                  "rangeMaximum":3230,
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
@@ -138,31 +138,9 @@
             }
          },
          {  
-            "sensorId":"PanelTilt",
-            "fullName":"Panel tilt angle sensor",
-            "description":"Gives the tilt angle of Solar Panel",
-            "webSocketType":"text",
-            "singleWebSocketRecommended":false,
-            "produces":"application/json",
-            "values":[  
-               {  
-                  "name":"tilt",
-                  "unit":"°",
-                  "type":"int",
-                  "rangeStep":1,
-                  "rangeMinimum":-90,
-                  "rangeMaximum":0,
-                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
-               }
-            ],
-            "accessMode":{  
-               "type":"pull"
-            }
-         },
-         {  
-            "sensorId":"PanelRot",
-            "fullName":"Panel rotation angle sensor",
-            "description":"Gives the rotation angle of Solar Panel",
+            "sensorId":"MillRot",
+            "fullName":"Mill rotation angle sensor",
+            "description":"Gives the rotation angle of the Mill",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
@@ -182,20 +160,16 @@
             }
          }
          {  
-            "sensorId":"WhereamI",
-            "fullName":"Distance to floor of the Weight",
-            "description":"Gives the centimeters to floor of the Weight moved by the Crane",
+            "sensorId":"LastSeat",
+            "fullName":"Last seat crossing stop",
+            "description":"Gives the color of the las guy that cross the stop position of the noria",
             "webSocketType":"text",
             "singleWebSocketRecommended":false,
             "produces":"application/json",
             "values":[  
                {  
-                  "name":"distance",
-                  "unit":"cm",
-                  "type":"int",
-                  "rangeStep":1,
-                  "rangeMinimum":25,
-                  "rangeMaximum":75,
+                  "name":"color",
+                  "type":"string",
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
