@@ -2,15 +2,15 @@
       "method":"getActuatorMetadata",
       "actuators":[
          {  
-            "actuatorId":"SolarLab",
+            "actuatorId":"WindLab",
             "fullName":"Solar Energy Generation",
-            "description":"Being SolarLab ON you can move the panel, assing light value and record the energy generated.",
+            "description":"Being WindLab ON you can move the mill, assing wind value and record the energy generated.",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"Solar",
+                  "name":"Eolic",
                   "type":"boolean",
                   "unit":"binary boolean",
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
@@ -40,9 +40,9 @@
             }
          },
          {  
-            "actuatorId":"Panelrot",
+            "actuatorId":"Millrot",
             "fullName":"Solar Panel rotation angle",
-            "description":"Changes rotation of Solar Panel",
+            "description":"Changes rotation of Mill",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
@@ -62,42 +62,20 @@
             }
          },
          {  
-            "actuatorId":"Paneltilt",
-            "fullName":"Solar Panel tilt angle",
-            "description":"Changes inclination of Solar Panel",
-            "webSocketType":"text",
-            "produces":"application/json",
-            "consumes":"application/json",
-            "values":[  
-               {  
-                  "name":"tilt",
-                  "unit":"°",
-                  "type":"int",
-                  "rangeStep":1,
-                  "rangeMinimum":-90,
-                  "rangeMaximum":0,
-                  "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
-               }
-            ],
-            "accessMode":{  
-               "type":"pull"
-            }
-         },
-         {  
-            "actuatorId":"Sun",
+            "actuatorId":"Wind",
             "fullName":"Sun Brightness",
-            "description":"Dimmer to change intensity of lamp",
+            "description":"Dimmer to change power of fan",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"dimSun",
-                  "unit":"lm",
+                  "name":"power",
+                  "unit":"W",
                   "type":"int",
                   "rangeStep":1,
                   "rangeMinimum":0,
-                  "rangeMaximum":700,
+                  "rangeMaximum":168,
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
@@ -141,7 +119,7 @@
                   "type":"dateTime",
                   "rangestep":1,
                   "rangeMinimum":10,
-                  "rangeMaximum":1200,
+                  "rangeMaximum":300,
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
@@ -150,15 +128,15 @@
             }
          },
          {  
-            "actuatorId":"CraneLab",
+            "actuatorId":"FWheelLab",
             "fullName":" Energy Usage",
-            "description":"Being CraneLab ON you can move a load and record the energy consumed.",
+            "description":"Being FWheelLab ON you can move a noria and record the energy consumed.",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"Crane",
+                  "name":"Wheel",
                   "type":"boolean",
                   "unit":"binary boolean",
                   "unit":"binary boolean",
@@ -192,20 +170,20 @@
             }
          },
          {  
-            "actuatorId":"WeightTrip",
-            "fullName":"Distance to move the load",
-            "description":"Number of centimeters to move the load in the experiment",
+            "actuatorId":"Turns",
+            "fullName":"Turns to do the noria",
+            "description":"Number of turns to move the noria in the experiment",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"distance",
+                  "name":"turns",
                   "unit":"cm",
                   "type":"int",
                   "rangestep":1,
                   "rangeMinimum":1,
-                  "rangeMaximum":100,
+                  "rangeMaximum":20,
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
                }
             ],
@@ -214,15 +192,15 @@
             }
          },
          {  
-            "actuatorId":"Direction",
-            "fullName":"Direction to move the load in",
-            "description":"Load to be moved up (=TRUE=1) or down (=FALSE=1)",
+            "actuatorId":"Orientation",
+            "fullName":"Direction to move the noria in",
+            "description":"Load to be moved right (=TRUE=1) or left (=FALSE=1)",
             "webSocketType":"text",
             "produces":"application/json",
             "consumes":"application/json",
             "values":[  
                {  
-                  "name":"sense",
+                  "name":"ori",
                   "type":"boolean",
                   "unit":"binary boolean",
                   "lastMeasured":"YYYY-MM-DDThh:mm:ssZ"
