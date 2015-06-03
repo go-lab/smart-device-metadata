@@ -1,7 +1,7 @@
 {
     "apiVersion": "2.0.0",
     "swaggerVersion": "1.2",
-    "basePath": "http://62.204.201.218:8080",
+    "basePath": "http://62.204.201.214:8081",
     "info": {
         "title": "Lego Solar Lab smart device",
         "description": "Lego Solar Lab implementation of the Go-Lab smart device in LabView",
@@ -25,12 +25,13 @@
         "roles": [
             {
                 "role": "observer",
-                "selectionMechanism": ["race"],
-                "availableApis": ["getSensorData"]
+                "selectionMechanism": ["queue"],
+                "availableApis": ["getSensorMetadata","getSensorData","getActuatorMetadata"]
             },
             {
                 "role": "controller",
-                "selectionMechanism": ["race"]
+                "selectionMechanism": ["race"],
+                "availableApis": ["getSensorMetadata","getSensorData","getActuatorMetadata","sendActuatorData"]
             }
         ]
     },
@@ -70,7 +71,15 @@
                         },
                         {
                             "code": 405,
-                            "message": "Method not allowed. The requested method is not allowed by this server."
+                            "message": "Method not implemented. The requested method is not allowed by this server."
+                        },
+                        {
+                            "code": 412,
+                            "message": "JSON string is invalid."
+                        },
+                        {
+                            "code": 413,
+                            "message": "method key missing."
                         },
                         {
                             "code": 422,
@@ -104,16 +113,32 @@
                     ],
                     "responseMessages": [
                         {
+                            "code": 401,
+                            "message": "Unauthorised access. The authentication token is missing"
+                        },
+                        {
                             "code": 402,
                             "message": "Too many users"
                         },
                         {
-                            "code": 404,
-                            "message": "No sensors found"
+                            "code": 403,
+                            "message": "Unauthorised access. The access role is not valid"
                         },
                         {
                             "code": 405,
                             "message": "Method not allowed. The requested method is not allowed by this server."
+                        },
+                        {
+                            "code": 412,
+                            "message": "JSON string is invalid."
+                        },
+                        {
+                            "code": 413,
+                            "message": "method key missing."
+                        },
+                        {
+                            "code": 414,
+                            "message": "accesRole key missing."
                         },
                         {
                             "code": 422,
@@ -140,11 +165,15 @@
                     "responseMessages": [
                         {
                             "code": 401,
-                            "message": "Unauthorised access. The authentication token is not valid"
+                            "message": "Unauthorised access. The authentication token is missing"
                         },
                         {
                             "code": 402,
                             "message": "Too many users"
+                        },
+                        {
+                            "code": 403,
+                            "message": "Unauthorised access. The access role is not valid"
                         },
                         {
                             "code": 404,
@@ -155,8 +184,24 @@
                             "message": "Method not allowed. The requested method is not allowed by this server."
                         },
                         {
+                            "code": 406,
+                            "message": "Value coerced for updatefrequency."
+                        },
+                        {
                             "code": 408,
-                            "message": "Requested value doesn´t exist for this sensor"
+                            "message": "Value invalid for this sensor"
+                        },
+                        {
+                            "code": 412,
+                            "message": "JSON string is invalid."
+                        },
+                        {
+                            "code": 413,
+                            "message": "method key missing."
+                        },
+                        {
+                            "code": 414,
+                            "message": "accesRole key missing."
                         },
                         {
                             "code": 422,
@@ -190,12 +235,32 @@
                     ],
                     "responseMessages": [
                         {
-                            "code": 404,
-                            "message": "No actuators found"
+                            "code": 401,
+                            "message": "Unauthorised access. The authentication token is missing"
+                        },
+                        {
+                            "code": 402,
+                            "message": "Too many users"
+                        },
+                        {
+                            "code": 403,
+                            "message": "Unauthorised access. The access role is not valid"
                         },
                         {
                             "code": 405,
                             "message": "Method not allowed. The requested method is not allowed by this server."
+                        },
+                        {
+                            "code": 412,
+                            "message": "JSON string is invalid."
+                        },
+                        {
+                            "code": 413,
+                            "message": "method key missing."
+                        },
+                        {
+                            "code": 414,
+                            "message": "accesRole key missing."
                         },
                         {
                             "code": 422,
@@ -223,11 +288,15 @@
                     "responseMessages": [
                         {
                             "code": 401,
-                            "message": "Unauthorised access. The authentication token is not valid"
+                            "message": "Unauthorised access. The authentication token is missing"
                         },
                         {
                             "code": 402,
                             "message": "Too many users"
+                        },
+                        {
+                            "code": 403,
+                            "message": "Unauthorised access. The access role is not valid"
                         },
                         {
                             "code": 404,
@@ -239,19 +308,31 @@
                         },
                         {
                             "code": 406,
-                            "message": "Unauthorised accessrole for this method"
-                        },
-                        {
-                            "code": 407,
-                            "message": "Sent data doesn´t exist for this actuator"
+                            "message": "Value coerced for actuator data."
                         },
                         {
                             "code": 408,
-                            "message": "Data value not allowed for this actuator"
+                            "message": "Value invalid for actuator data"
                         },
                         {
                             "code": 409,
                             "message": "AccesRole controller already assigned"
+                        },
+                        {
+                            "code": 411,
+                            "message": "Payload reply lost"
+                        },
+                        {
+                            "code": 412,
+                            "message": "JSON string is invalid."
+                        },
+                        {
+                            "code": 413,
+                            "message": "method key missing."
+                        },
+                        {
+                            "code": 414,
+                            "message": "accesRole key missing."
                         },
                         {
                             "code": 422,
@@ -291,15 +372,27 @@
             "responseMessages": [
                 {
                     "code": 401,
-                    "message": "Unauthorised access. The authentication token is not valid"
+                    "message": "Unauthorised access. The authentication token is missing"
                 },
                 {
                     "code": 402,
                     "message": "Too many users"
                 },
                 {
+                    "code": 403,
+                    "message": "Unauthorised access. The access role is not valid"
+                },
+                {
                     "code": 405,
-                    "message": "Method not allowed. The requested method is not allowed by this server."
+                    "message": "Method not implemented. The requested method is not allowed by this server."
+                },
+                {
+                    "code": 412,
+                    "message": "JSON string is invalid."
+                },
+                {
+                    "code": 413,
+                    "message": "method key missing."
                 },
                 {
                     "code": 422,
